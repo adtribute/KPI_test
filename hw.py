@@ -26,9 +26,13 @@ class metricRow:
 
 
 def compute_metrics():
-    """this is the main function that loaded the sample data and executes
+    """this is the main function that loads the sample data and executes
     the compute_agent_response_times function on each block of tickets to
     produce metric rows.
+
+    You dont need to change this function, but can swap metric functions
+    w/ the example to see how this works.
+
     """
     with open("data.pkl", "rb") as f:
         blocks = pkl.load(f)
@@ -48,19 +52,19 @@ def compute_agent_response_times(ticket_bock: dict) -> list[metricRow]:
     This function takes a "ticket block" which is a dict of a "ticket" and "comments".
 
     This is a simplified version of data you will work with at maestro, this represents
-    1 customer service interaction - data our ETL system collects.
+    1 customer service interaction - data our ETL system collects from our customers
+    tools.
 
-    This function implements the logic of a common type of 'metric'  our customers use -
-    agent response times.
+    This function need to implement the logic of a common type of 'metric' our customers use -
+    "agent response times".
 
-    This is basically just the delta in time from a customers message til the agents response.
+    This is basically just the delta in time from a customer's message til the agent's response.
 
     However there are a few subleties:
-        - these chats sometimes starts with a bot interaction. either way, the clock
-          doesnt start till the agent joins. the first agent response time is the time
+        - The clockdoesnt start till the agent joins. The first agent response time is the time
           from the agent joining the chat, til thier next message.
 
-         - the customer or agent can send multiple chats right after each other, without
+        - The customer or agent can send multiple chats right after each other, without
           the other person messaging. In this case we only care about the time of the
           first message.
 
