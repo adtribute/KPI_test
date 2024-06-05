@@ -1,11 +1,15 @@
 """
-this is a lil mock task that is represented of one of the many types of tasks you'll do.
 
-https://docs.google.com/document/d/1MfcE7aZ6EXuyu2XeckdEg8mhib6yWeewK_TTSOJDAy8/edit
+This is a lil mock task that is represented of one of the many types of tasks you'll do.
+
+The task is to implement compute_agent_response_times.
+
+See the docstr of that function for more info.
+
 
 """
 
-from bson.json_util import loads as bloads
+import pickle as pkl
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -19,28 +23,35 @@ class metricRow:
 
 
 def load_sample_ticket_blocks():
-    file = "data.txt"
-    blocks = []
-    with open(file, "r") as f:
-        for l in f.readlines():
-            blocks.append(bloads(l))
+    """utility to load the sample data.txt file into a list of ticket blocks"""
+    with open("data.pkl", "rb") as f:
+        blocks = pkl.load(f)
     assert len(blocks) == 10, "should have 10 ticket blocks in the file"
-
     return blocks
 
 
 def compute_metrics():
+    """ """
     blocks = load_sample_ticket_blocks()
     metrics = []
     for block in blocks:
-        # metrics = example_metric_count_of_agent_comments(block)
-        metrics = compute_agent_response_times(block)
+        metrics = example_metric_count_of_agent_comments(block)
+        # metrics = compute_agent_response_times(block)
         metrics.extend(metrics)
 
     return metrics
 
 
 def compute_agent_response_times(ticket_bock: dict) -> list[metricRow]:
+    """
+    This function takes a "ticket block" which is a dict of a "ticket" and "comments".
+
+    This represents a stub version of data you will work with at maestro, this represents
+    1 customer service interaction - data our ETL system collects.
+
+
+    https://docs.google.com/document/d/1MfcE7aZ6EXuyu2XeckdEg8mhib6yWeewK_TTSOJDAy8/edit
+    """
     raise Exception("not implemented")
 
 
@@ -62,3 +73,4 @@ def example_metric_count_of_agent_comments(ticket_block: dict) -> list[metricRow
 
 if __name__ == "__main__":
     ms = compute_metrics()
+    print(ms)
